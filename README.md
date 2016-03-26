@@ -1,11 +1,11 @@
 # Lunchbuddy
-Lunchbuddy is [Slack](http://slack.com) bot providing daily menus for configured restaurants.
+Lunchbuddy is a [Slack](http://slack.com) bot providing daily lunch menus for configured restaurants.
 
 ### Configuration
 
-To make Lunchbuddy work, you need to edit the `config.json` file. It contains 3 configurtaion items.
+To make Lunchbuddy work, you need to edit the `config.json` file. It contains 3 configuration items.
 
-`token` - Slack token that yoz get when creating the bot in Slack    
+`token` - bot token that you get when creating the bot in Slack    
 `name` - the name of the Slack bot    
 `zomato_key` - Zomato API key    
 
@@ -17,11 +17,11 @@ Lunchbuddy is a regular Node.js app, so just do `npm install` and `node index.js
 
 ### Usage
 
-You can invode Lunchbuddy by mentioning him in any channel you invite him to or you can write him direct message. He respons to `help` and shows you all the restuarants is is configured to fetch the menu for. 
+You can invoke Lunchbuddy by mentioning him in any channel you invite it to or you can write it direct messages. It responds to `help` and shows you all the restuarants it is configured to fetch the menu for. 
 
 ![Asking Lunchbuddy for help](https://raw.githubusercontent.com/igorkulman/lunchbuddy-bot/master/images/help.png)
 
-If you write to Lunchbuddy a name of a configured restaurant, he will respond with the daily menu for this restaurant.
+If you write to Lunchbuddy a name of a configured restaurant, it will respond with the daily lunch menu for this restaurant.
 
 ![Showing daily menu](https://raw.githubusercontent.com/igorkulman/lunchbuddy-bot/master/images/menu.png)
 
