@@ -1,0 +1,16 @@
+{
+  "name": "lunchbuddy",
+  "version": "1.0.0",
+  "description": "Slack bot for showing lunch menus",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "slackbots": "^0.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Igor Kulman",
+  "license": "ISC"
+}
