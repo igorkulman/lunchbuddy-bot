@@ -1,0 +1,5 @@
+{
+	"token": "your slack bot token",
+	"name": "your slack bot name",
+	"zomato_key": "your Zomato api key"
+}
