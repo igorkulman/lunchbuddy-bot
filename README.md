@@ -19,7 +19,11 @@ Lunchbuddy is a regular Node.js app, so just do `npm install` and `node index.js
 
 You can invode Lunchbuddy by mentioning him in any channel you invite him to or you can write him direct message. He respons to `help` and shows you all the restuarants is is configured to fetch the menu for. 
 
+![Asking Lunchbuddy for help](https://raw.githubusercontent.com/igorkulman/lunchbuddy-bot/master/images/help.png)
+
 If you write to Lunchbuddy a name of a configured restaurant, he will respond with the daily menu for this restaurant.
+
+![Showing daily menu](https://raw.githubusercontent.com/igorkulman/lunchbuddy-bot/master/images/menu.png)
 
 ### Adding a new restaurant
 
