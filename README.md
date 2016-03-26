@@ -9,7 +9,7 @@ To make Lunchbuddy work, you need to edit the `config.json` file. It contains 3 
 `name` - the name of the Slack bot    
 `zomato_key` - Zomato API key    
 
-No need to get and configure the (Zomato)[http://zomato.com) API key when yo do not want to use this service.
+No need to get and configure the [Zomato](http://zomato.com) API key when yo do not want to use this service.
 
 ### Installation
 
