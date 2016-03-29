@@ -13,7 +13,7 @@ No need to get and configure the [Zomato](http://zomato.com) API key when yo do 
 
 ### Installation
 
-Lunchbuddy is a regular Node.js app, so just do `npm install` and `node index.js` and the bot will start and connect to Slack (if configured properly). 
+Lunchbuddy is a regular Node.js app (although it does not use left-pad :), so just do `npm install` and `node index.js` and the bot will start and connect to Slack (if configured properly). 
 
 ### Usage
 
@@ -34,3 +34,5 @@ zomato.get(config.zomato_key, 16507044, function(data) {
     sendResponse(id, data, "GURMET");
 });
 ````
+
+If you want to add a custom restaurant, take a look at the `custom.js` module to see samples of scraping web to get the daily lunch menu.
