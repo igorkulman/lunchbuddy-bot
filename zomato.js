@@ -1,7 +1,8 @@
 var https = require("https");
+var fs = require('fs');
+var config = JSON.parse(fs.readFileSync('config.json'));
 
-module.exports = {
-	get: function(apiKey, id, callback) {
+function gurmet(apiKey, id, callback) {
 		var options = {
 			host: 'developers.zomato.com',
 			port: 443,
@@ -37,5 +38,22 @@ module.exports = {
 		});
 
 		req.end();
+	}
+
+module.exports = {
+	handles: function(restaurant){
+		return restaurant=="gurmet";
+	},
+
+	restaurants: function(){
+		return ["gurmet"]
+	},
+
+	get: function(restaurant, callback) {
+		gurmet(config.zomato_key, 16507044, callback)
+	},
+
+	name: function(restaurant) {
+		return "GURMET"
 	}
 };

@@ -25,8 +25,7 @@ function today(td) {
     return td.getDate() == d.getDate() && td.getMonth() == d.getMonth() && td.getFullYear() == d.getFullYear();
 }
 
-module.exports = {
-    avion: function(callback) {
+function avion (callback) {
         download("http://avion58.cz/", function(data) {
             if (data) {
                 var res = [];
@@ -46,9 +45,9 @@ module.exports = {
                 callback([]);
             }
         });
-    },
+    }
 
-    motoburger: function(callback) {
+function motoburger(callback) {
         download("http://www.motoburger.cz/", function(data) {
             if (data) {
                 var res = [];
@@ -66,9 +65,9 @@ module.exports = {
                 callback([]);
             }
         });
-    },
+    }    
 
-    puzzle: function(callback) {
+function puzzle(callback) {
         download("http://www.puzzlesalads.cz/denni-nabidka", function(data) {
             if (data) {
                 var res = [];
@@ -87,9 +86,9 @@ module.exports = {
                 callback([]);
             }
         });
-    },
+    }
 
-    eurest: function(callback) {
+function eurest (callback) {
         var weekNumber = (new Date()).getWeek();
 
         download("http://www.unasrestaurace.cz/menulist.php?locale=cs&week=" + weekNumber, function(data) {
@@ -117,5 +116,44 @@ module.exports = {
                 callback([]);
             }
         });
+    }
+
+module.exports = {
+    handles: function(restaurant){
+        return restaurant=="avion" || restaurant== "motoburger" || restaurant== "puzzle" || restaurant== "eurest";
+    },
+
+    restaurants: function(){
+        return ["avion", "motoburger", "puzzle", "eurest"]
+    },
+
+    get: function(restaurant, callback) {
+        switch(restaurant) {
+            case "avion":
+                avion(callback);
+                break;
+            case "eurest":
+                eurest(callback);
+                break;
+            case "puzzle":
+                puzzle(callback);
+                break;
+            case "motoburger":
+                motoburger(callback);
+                break;
+        }
+    },
+
+    name: function(restaurant) {        
+       switch(restaurant) {
+            case "avion":
+                return "AVION 58";
+            case "eurest":
+                return "EUREST";
+            case "puzzle":
+                return "PUZZLE SALADS";
+            case "motoburger":
+                return "MOTOBURGER";
+        }
     }
 };

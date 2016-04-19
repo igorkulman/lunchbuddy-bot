@@ -19,8 +19,7 @@ function today(td) {
     return td.getDate() == d.getDate() && td.getMonth() == d.getMonth() && td.getFullYear() == d.getFullYear();
 }
 
-module.exports = {
-	get: function(cityId, callback) {
+function getMenu(cityId, callback) {
 		download("http://ordr-api-production.azurewebsites.net/offers/weeklymenu?cityid=" + cityId, function(data) {
             if (data) {
                 var res = [];
@@ -46,5 +45,22 @@ module.exports = {
                 callback([]);
             }
         });
+	}
+
+module.exports = {
+	handles: function(restaurant){
+		return restaurant=="ordr";
+	},
+
+	restaurants: function(){
+		return ["ordr"]
+	},
+
+	get: function(restaurant, callback) {
+		getMenu(1, callback)
+	},
+
+	name: function(restaurant) {
+		return "ORDR (Prague)"
 	}
 };

@@ -5,6 +5,8 @@ var zomato = require('./zomato.js');
 var custom = require('./custom.js');
 var ordr = require('./ordr.js');
 
+var providers = [zomato, custom, ordr];
+
 var settings = {
     token: config.token,
     name: config.name,
@@ -35,43 +37,31 @@ function process(msg, id) {
 
     switch (msg) {
         case "help":
-            bot.postMessage(id, 'I know *avion*, *puzzle*, *motoburger*, *eurest*, *ordr* and *gurmet*');
+            var restaurants = "";
+            for (var i=0;i<providers.length;++i) {
+                var res = providers[i].restaurants();
+                for (var j=0;j<res.length;++j) {
+                    restaurants = restaurants+" *"+res[j]+"*,";
+                }
+            }
+
+            bot.postMessage(id, "I know"+restaurants.substring(0, restaurants.length - 1)+".");
             break;
         case "about":
-            bot.postMessage(id, 'Lunchbuddy bot by *Igor Kulman*');
-            break;
-        case "avion":
-            custom.avion(function(data) {
-                sendResponse(id, data, "AVION 58");
-            });
-            break;
-        case "puzzle":
-            custom.puzzle(function(data) {
-                sendResponse(id, data, "PUZZLE SALADS");
-            });
-            break;
-        case "motoburger":
-            custom.motoburger(function(data) {
-                sendResponse(id, data, "MOTOBURGER");
-            });
-            break;
-        case "gurmet":
-            zomato.get(config.zomato_key, 16507044, function(data) {
-                sendResponse(id, data, "GURMET");
-            });
-            break;
-        case "eurest":
-            custom.eurest(function(data) {
-                sendResponse(id, data, "EUREST");
-            });
-            break;
-        case "ordr":
-            ordr.get(1, function(data) {
-                sendResponse(id, data, "ORDR (Prague)");
-            });
-            break;
+            bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
+            break;       
         default:
-            bot.postMessage(id, 'Sorry, I do not know ' + msg + '. Use *help* to see what I know.');
+            
+            for (var i=0;i<providers.length;++i) {
+                if (providers[i].handles(msg)) {
+                    providers[i].get(msg, (function(data) {
+                        sendResponse(id, data, providers[i].name(msg));
+                    }));
+                    return;
+                }
+            }
+
+            bot.postMessage(id, "Sorry, I do not know " + msg + ". Use *help* to see what I know.");
             break;
     }
 }
