@@ -25,6 +25,10 @@ If you write to Lunchbuddy a name of a configured restaurant, it will respond wi
 
 ![Showing daily menu](https://raw.githubusercontent.com/igorkulman/lunchbuddy-bot/master/images/menu.png)
 
+### Getting started
+
+Lunchbuddy contains a few restaurants and delivery services to get you started and show you how to use [Zomato API](https://developers.zomato.com/api?lang=en), how to scrape web ([Avion58](http://avion58.cz/), [Motoburger](http://www.motoburger.cz/)) or how to parse JSON data ([Ordr.cz](https://www.ordr.cz/)).
+
 ### Adding a new restaurant
 
 The easiest way to add a new restaurant is to add a restaurant available in Zomato. You just need the `id` of the restaurant
