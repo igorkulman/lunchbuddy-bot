@@ -3,6 +3,7 @@ var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json'));
 var zomato = require('./zomato.js');
 var custom = require('./custom.js');
+var ordr = require('./ordr.js');
 
 var settings = {
     token: config.token,
@@ -34,7 +35,7 @@ function process(msg, id) {
 
     switch (msg) {
         case "help":
-            bot.postMessage(id, 'I know *avion*, *puzzle*, *motoburger*, *eurest* and *gurmet*');
+            bot.postMessage(id, 'I know *avion*, *puzzle*, *motoburger*, *eurest*, *ordr* and *gurmet*');
             break;
         case "about":
             bot.postMessage(id, 'Lunchbuddy bot by *Igor Kulman*');
@@ -62,6 +63,11 @@ function process(msg, id) {
         case "eurest":
             custom.eurest(function(data) {
                 sendResponse(id, data, "EUREST");
+            });
+            break;
+        case "ordr":
+            ordr.get(1, function(data) {
+                sendResponse(id, data, "ORDR (Prague)");
             });
             break;
         default:
