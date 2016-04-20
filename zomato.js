@@ -1,6 +1,7 @@
 var https = require("https");
 var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json'));
+var restaurants = JSON.parse(fs.readFileSync('zomato.json'));
 
 function gurmet(apiKey, id, callback) {
 	var options = {
@@ -30,8 +31,7 @@ function gurmet(apiKey, id, callback) {
 			var res = [];
 
 			for (var i = 0; i < dishes.length; ++i) {
-				var dish = dishes[i].dish;
-				res.push(dish.name + " " + dish.price);
+				var dish = dishes[i].dish;				
 				res.push({
 					"name": dish.name,
 					"price": dish.price
@@ -46,18 +46,40 @@ function gurmet(apiKey, id, callback) {
 
 module.exports = {
 	handles: function(restaurant) {
-		return restaurant == "gurmet";
+		var rest = restaurants.restaurants;
+		for (var r in rest) {
+			if (rest[r].keyword === restaurant) {
+				return true;
+			}
+		};
+		return false;
 	},
 
 	restaurants: function() {
-		return ["gurmet"]
+		var rest = restaurants.restaurants;
+		var resp = []
+		for (var restaurant in rest) {
+			resp.push(rest[restaurant].keyword)
+		}
+		return resp;
 	},
 
 	get: function(restaurant, callback) {
-		gurmet(config.zomato_key, 16507044, callback)
+		var rest = restaurants.restaurants;
+		for (var r in rest) {
+			if (rest[r].keyword == restaurant) {
+				gurmet(config.zomato_key, rest[r].id, callback)
+			}
+		};
 	},
 
 	name: function(restaurant) {
-		return "GURMET"
+		var rest = restaurants.restaurants;
+		for (var r in rest) {
+			if (rest[r].keyword == restaurant) {
+				return rest[r].name;
+			}
+		};
+		return "";
 	}
 };
