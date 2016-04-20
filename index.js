@@ -14,7 +14,7 @@ var settings = {
 var bot = new Bot(settings);
 
 function formatLine(record) {
-    return record.name.replace(/(\r\n|\n|\r)/gm, "").trim() + record.price + ",- \r\n\r\n";
+    return record.name.replace(/(\r\n|\n|\r)/gm, "").trim() + " " + record.price + ",- \r\n\r\n";
 }
 
 function sendResponse(id, data, title) {
