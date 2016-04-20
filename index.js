@@ -13,8 +13,8 @@ var settings = {
 };
 var bot = new Bot(settings);
 
-function formatLine(line) {
-    return line.replace(/(\r\n|\n|\r)/gm, "").trim() + "\r\n\r\n";
+function formatLine(record) {
+    return record.name.replace(/(\r\n|\n|\r)/gm, "").trim() + record.price + ",- \r\n\r\n";
 }
 
 function sendResponse(id, data, title) {
@@ -22,13 +22,14 @@ function sendResponse(id, data, title) {
     var res = "\r\n\r\n*" + title + "*\r\n\r\n";
 
     if (data.length == 0) {
-        bot.postMessage(id, res+formatLine("data not available"));
+        bot.postMessage(id, res + formatLine("data not available"));
         return;
     }
 
-    for (var i = 0; i < data.length; ++i) {
-        res = res + formatLine(data[i]);
-    }
+    data.forEach(function(line) {
+        res = res + formatLine(line);
+    });
+
     bot.postMessage(id, res);
 }
 
@@ -38,30 +39,36 @@ function process(msg, id) {
     switch (msg) {
         case "help":
             var restaurants = "";
-            for (var i=0;i<providers.length;++i) {
-                var res = providers[i].restaurants();
-                for (var j=0;j<res.length;++j) {
-                    restaurants = restaurants+" *"+res[j]+"*,";
-                }
-            }
 
-            bot.postMessage(id, "I know"+restaurants.substring(0, restaurants.length - 1)+".");
+            providers.forEach(function(provider) {
+                provider.restaurants().forEach(function(restaurant) {
+                    restaurants = restaurants + " *" + restaurant + "*,";
+                })
+            });
+
+            bot.postMessage(id, "I know" + restaurants.substring(0, restaurants.length - 1) + ".");
             break;
+
         case "about":
             bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
-            break;       
-        default:
-            
-            for (var i=0;i<providers.length;++i) {
-                if (providers[i].handles(msg)) {
-                    providers[i].get(msg, (function(data) {
-                        sendResponse(id, data, providers[i].name(msg));
-                    }));
-                    return;
-                }
-            }
+            break;
 
-            bot.postMessage(id, "Sorry, I do not know " + msg + ". Use *help* to see what I know.");
+        default:
+            var handler = false;
+
+            providers.forEach(function(provider) {
+                if (provider.handles(msg)) {
+                    handled = true;
+
+                    provider.get(msg, function(data) {
+                        sendResponse(id, data, provider.name(msg));
+                    });
+                }
+            });
+
+            if (!handled) {
+                bot.postMessage(id, "Sorry, I do not know " + msg + ". Use *help* to see what I know.");
+            }
             break;
     }
 }

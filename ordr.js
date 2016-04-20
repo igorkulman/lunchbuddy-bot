@@ -35,7 +35,11 @@ function getMenu(cityId, callback) {
 
                     if (isToday) {
                         for (var k=0; k< j.weekly_menu[i].shifts[0].meals.length; ++k) {
-                            res.push(j.weekly_menu[i].shifts[0].meals[k].name+" "+j.weekly_menu[i].shifts[0].meals[k].price+",-")
+                            res.push({
+                                "name" : j.weekly_menu[i].shifts[0].meals[k].name,
+                                "price" : j.weekly_menu[i].shifts[0].meals[k].price,
+                                "image" : j.weekly_menu[i].shifts[0].meals[k].image_url
+                            });
                         }
                     }
                 }
