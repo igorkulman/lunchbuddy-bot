@@ -31,12 +31,16 @@ Lunchbuddy contains a few restaurants and delivery services to get you started a
 
 ### Adding a new restaurant
 
-The easiest way to add a new restaurant is to add a restaurant available in Zomato. You just need the `id` of the restaurant
+The easiest way to add a new restaurant is to add a restaurant available in Zomato. You just need to add a new item to the `zomato.json` config
 
 ````
-zomato.get(config.zomato_key, 16507044, function(data) {
-    sendResponse(id, data, "GURMET");
-});
+{
+  "restaurants": [{
+    "id": 16507044,
+    "name": "GURMET",
+    "keyword": "gurmet"
+  }]
+}
 ````
 
 If you want to add a custom restaurant, take a look at the `custom.js` module to see samples of scraping web to get the daily lunch menu.
