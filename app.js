@@ -26,7 +26,7 @@ function sendResponse(id, data, title) {
         return;
     }
 
-    data.forEach(function(line) {
+    data.forEach(function (line) {
         res = res + formatLine(line);
     });
 
@@ -40,8 +40,8 @@ function process(msg, id) {
         case "help":
             var restaurants = "";
 
-            providers.forEach(function(provider) {
-                provider.restaurants().forEach(function(restaurant) {
+            providers.forEach(function (provider) {
+                provider.restaurants().forEach(function (restaurant) {
                     restaurants = restaurants + " *" + restaurant + "*,";
                 })
             });
@@ -56,11 +56,11 @@ function process(msg, id) {
         default:
             var handler = false;
 
-            providers.forEach(function(provider) {
+            providers.forEach(function (provider) {
                 if (provider.handles(msg)) {
                     handled = true;
 
-                    provider.get(msg, function(data) {
+                    provider.get(msg, function (data) {
                         sendResponse(id, data, provider.name(msg));
                     });
                 }
@@ -73,11 +73,11 @@ function process(msg, id) {
     }
 }
 
-bot.on('start', function() {
+bot.on('start', function () {
     console.log("bot started");
 });
 
-bot.on('message', function(data) {
+bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm 
     if (data.type == "message" && data.text.startsWith('<@' + bot.self.id + '>:')) {
         var msg = data.text.replace('<@' + bot.self.id + '>: ', '');
