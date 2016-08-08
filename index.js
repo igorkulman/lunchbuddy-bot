@@ -1,9 +1,9 @@
 var Bot = require('slackbots');
 var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json'));
-var zomato = require('./zomato.js');
-var custom = require('./custom.js');
-var ordr = require('./ordr.js');
+var zomato = require('./providers/zomato.js');
+var custom = require('./providers/custom.js');
+var ordr = require('./providers/ordr.js');
 
 var providers = [zomato, custom, ordr];
 
