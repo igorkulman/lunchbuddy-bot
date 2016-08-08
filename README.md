@@ -13,7 +13,7 @@ No need to get and configure the [Zomato](http://zomato.com) API key when yo do 
 
 ### Installation
 
-Lunchbuddy is a regular Node.js app (although it does not use left-pad :), so just do `npm install` and `node index.js` and the bot will start and connect to Slack (if configured properly). 
+Lunchbuddy is a regular Node.js app (although it does not use left-pad :), so just do `npm install` and `npm start` and the bot will start and connect to Slack (if configured properly). 
 
 ### Usage
 
