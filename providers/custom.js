@@ -1,19 +1,7 @@
 var $ = require('cheerio')
-var http = require("http")
-
-function download(url, callback) {
-    http.get(url, function(res) {
-        var data = "";
-        res.on('data', function(chunk) {
-            data += chunk;
-        });
-        res.on("end", function() {
-            callback(data);
-        });
-    }).on("error", function() {
-        callback(null);
-    });
-}
+var async = require('asyncawait/async');
+var await = require('asyncawait/await');
+var request = require('request-promise');
 
 Date.prototype.getWeek = function() {
     var onejan = new Date(this.getFullYear(), 0, 1);
@@ -25,108 +13,99 @@ function today(td) {
     return td.getDate() == d.getDate() && td.getMonth() == d.getMonth() && td.getFullYear() == d.getFullYear();
 }
 
-function avion(callback) {
-    download("http://avion58.cz/", function(data) {
-        if (data) {
-            var res = [];
+var avion = async(function(){
+    var data = await (request.get({
+        url: "http://avion58.cz/"
+    }));
 
-            var parsedHTML = $.load(data);
-            parsedHTML('strong.price').map(function(i, food) {
-                var name = $(this).prev().text();
+    var res = [];
 
-                if (name) {                    
-                    res.push({
-                        "name": name,
-                        "price": $(this).text()
-                    });
-                }
+    var parsedHTML = $.load(data);
+    parsedHTML('strong.price').map(function(i, food) {
+        var name = $(this).prev().text();
+
+        if (name) {                    
+            res.push({
+                "name": name,
+                "price": $(this).text()
             });
-
-            callback(res);
-
-        } else {
-            callback([]);
         }
     });
-}
 
-function motoburger(callback) {
-    download("http://www.motoburger.cz/", function(data) {
-        if (data) {
-            var res = [];
+    return res;
+});
 
-            var parsedHTML = $.load(data);
-            parsedHTML('tr').map(function(i, food) {
-                var name = $(this).next().text();
-                if (name && !name.startsWith("*ROZVOZ")) {
-                    res.push({
-                        "name": name
-                    });
-                }
+var motoburger = async(function(){
+    var data = await (request.get({
+        url: "http://www.motoburger.cz/"
+    }));
+
+    var res = [];
+
+    var parsedHTML = $.load(data);
+    parsedHTML('tr').map(function(i, food) {
+        var name = $(this).next().text();
+        if (name && !name.startsWith("*ROZVOZ")) {
+            res.push({
+                "name": name
             });
-
-            callback(res);
-        } else {
-            callback([]);
         }
     });
-}
 
-function puzzle(callback) {
-    download("http://www.puzzlesalads.cz/denni-nabidka", function(data) {
-        if (data) {
-            var res = [];
+    return res;
+})
 
-            var parsedHTML = $.load(data);
-            parsedHTML('span.price').map(function(i, food) {
-                var name = $(this).prev().text();
+var puzzle = async(function(){
+    var data = await (request.get({
+        url: "http://www.puzzlesalads.cz/denni-nabidka"
+    }));
 
-                if (name) {                    
-                    res.push({
-                        "name": name,
-                        "price": $(this).text()
-                    });
-                }
+    var res = [];
+
+    var parsedHTML = $.load(data);
+    parsedHTML('span.price').map(function(i, food) {
+        var name = $(this).prev().text();
+
+        if (name) {                    
+            res.push({
+                "name": name,
+                "price": $(this).text()
             });
-
-            callback(res);
-        } else {
-            callback([]);
         }
     });
-}
 
-function eurest(callback) {
+    return res;
+});
+
+var eurest = async(function(){
     var weekNumber = (new Date()).getWeek();
 
-    download("http://www.unasrestaurace.cz/menulist.php?locale=cs&week=" + weekNumber, function(data) {
-        if (data) {
-            var res = [];
+    var data = await (request.get({
+        url: "http://www.unasrestaurace.cz/menulist.php?locale=cs&week=" + weekNumber
+    }));
 
-            var j = JSON.parse(data);
-            var todaysDate = new Date();
+    var res = [];
 
-            for (var i = 0; i < j.Items.length; ++i) {
+    var j = JSON.parse(data);
+    var todaysDate = new Date();
 
-                var re = /-?\d+/;
-                var m = re.exec(j.Items[i].Date);
-                var d = new Date(parseInt(m[0]));
+    for (var i = 0; i < j.Items.length; ++i) {
 
-                var isToday = today(d);
+        var re = /-?\d+/;
+        var m = re.exec(j.Items[i].Date);
+        var d = new Date(parseInt(m[0]));
 
-                if (isToday) {                    
-                    res.push({
-                        "name": j.Items[i].MealName
-                    });
-                }
-            }
+        var isToday = today(d);
 
-            callback(res);
-        } else {
-            callback([]);
+        if (isToday) {                    
+            res.push({
+                "name": j.Items[i].MealName
+            });
         }
-    });
-}
+    }
+
+    return res;
+});
 
 module.exports = {
     handles: function(restaurant) {
@@ -140,16 +119,24 @@ module.exports = {
     get: function(restaurant, callback) {
         switch (restaurant) {
             case "avion":
-                avion(callback);
+                avion().then(function(res){
+                    callback(res)
+                });
                 break;
             case "eurest":
-                eurest(callback);
+                eurest().then(function(res){
+                    callback(res)
+                });
                 break;
             case "puzzle":
-                puzzle(callback);
+                puzzle().then(function(res){
+                    callback(res)
+                });
                 break;
             case "motoburger":
-                motoburger(callback);
+                motoburger().then(function(res){
+                    callback(res)
+                });
                 break;
         }
     },

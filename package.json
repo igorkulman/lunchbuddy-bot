@@ -4,16 +4,16 @@
   "description": "Slack bot for showing lunch menus",
   "main": "index.js",
   "dependencies": {
+    "asyncawait": "^1.0.6",
     "cheerio": "^0.20.0",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
     "slackbots": "^0.5.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./index.js"
   },
   "author": "Igor Kulman",
-  "license": "Mozilla Public License 2.0",
-  "scripts": {
-    "start": "node ./index.js"
-  }
+  "license": "Mozilla Public License 2.0"
 }
