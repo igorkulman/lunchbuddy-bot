@@ -120,30 +120,17 @@ module.exports = {
         return ["avion", "motoburger", "puzzle", "eurest"]
     },
 
-    get: function(restaurant, callback) {
+    get: async (function(restaurant) {
         switch (restaurant) {
-            case "avion":
-                avion().then(function(res){
-                    callback(res)
-                });
-                break;
+            case "avion":                
+                return await (avion());
             case "eurest":
-                eurest().then(function(res){
-                    callback(res)
-                });
-                break;
+                return await(eurest());
             case "puzzle":
-                puzzle().then(function(res){
-                    callback(res)
-                });
-                break;
+                return await (puzzle());
             case "motoburger":
-                motoburger().then(function(res){
-                    callback(res)
-                });
-                break;
-        }
-    },
+                return await (motoburger());
+        }}),
 
     name: function(restaurant) {
         switch (restaurant) {

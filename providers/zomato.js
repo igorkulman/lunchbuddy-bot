@@ -54,16 +54,14 @@ module.exports = {
 		return resp;
 	},
 
-	get: function(restaurant, callback) {
+	get: async(function(restaurant) {
 		var rest = restaurants.restaurants;
 		for (var r in rest) {
 			if (rest[r].keyword == restaurant) {
-				get(config.zomato_key, rest[r].id).then(function(res){
-					callback(res);
-				})
+				return await(get(config.zomato_key, rest[r].id));
 			}
 		};
-	},
+	}),
 
 	name: function(restaurant) {
 		var rest = restaurants.restaurants;

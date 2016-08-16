@@ -45,11 +45,9 @@ module.exports = {
 		return ["ordr"]
 	},
 
-	get: function(restaurant, callback) {
-		getMenu(1).then(function(res) {
-            callback(res);
-        });
-	},
+	get: async(function(restaurant) {
+		return await (getMenu(1));
+	}),
 
 	name: function(restaurant) {
 		return "ORDR (Prague)"
