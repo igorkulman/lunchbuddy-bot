@@ -8,6 +8,10 @@ Date.prototype.getWeek = function() {
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
 }
 
+function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+}
+
 function today(td) {
     var d = new Date();
     return td.getDate() == d.getDate() && td.getMonth() == d.getMonth() && td.getFullYear() == d.getFullYear();
@@ -66,10 +70,10 @@ var puzzle = async(function(){
     parsedHTML('span.price').map(function(i, food) {
         var name = $(this).prev().text();
 
-        if (name) {                    
+        if (!isEmptyOrSpaces(name)) {                               
             res.push({
                 "name": name,
-                "price": $(this).text()
+                "price": $(this).text().replace(/(\r\n|\n|\r)/gm," ").replace(/\s\s+/g, ' ')
             });
         }
     });
