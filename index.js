@@ -60,7 +60,7 @@ function process(msg, id) {
                 if (provider.handles(msg)) {
                     handled = true;
 
-                    provider.get(msg).then(function(data){
+                    provider.get(msg).then(function (data) {
                         sendResponse(id, data, provider.name(msg));
                     });
                 }

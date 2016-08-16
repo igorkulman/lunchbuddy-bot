@@ -5,12 +5,12 @@ var async = require('asyncawait/async');
 var await = require('asyncawait/await');
 var request = require('request-promise');
 
-var get = async (function(apiKey, id) {
-	var data = await (request.get({
-        url: "https://developers.zomato.com/api/v2.1/dailymenu?res_id="+id,
-		 headers: {
-   			"user_key": apiKey
-  		}
+var get = async(function (apiKey, id) {
+	var data = await(request.get({
+        url: "https://developers.zomato.com/api/v2.1/dailymenu?res_id=" + id,
+		headers: {
+			"user_key": apiKey
+		}
     }));
 
 	var j = JSON.parse(data);
@@ -24,7 +24,7 @@ var get = async (function(apiKey, id) {
 	var res = [];
 
 	for (var i = 0; i < dishes.length; ++i) {
-		var dish = dishes[i].dish;				
+		var dish = dishes[i].dish;
 		res.push({
 			"name": dish.name,
 			"price": dish.price
@@ -35,7 +35,7 @@ var get = async (function(apiKey, id) {
 });
 
 module.exports = {
-	handles: function(restaurant) {
+	handles: function (restaurant) {
 		var rest = restaurants.restaurants;
 		for (var r in rest) {
 			if (rest[r].keyword === restaurant) {
@@ -45,7 +45,7 @@ module.exports = {
 		return false;
 	},
 
-	restaurants: function() {
+	restaurants: function () {
 		var rest = restaurants.restaurants;
 		var resp = []
 		for (var restaurant in rest) {
@@ -54,7 +54,7 @@ module.exports = {
 		return resp;
 	},
 
-	get: async(function(restaurant) {
+	get: async(function (restaurant) {
 		var rest = restaurants.restaurants;
 		for (var r in rest) {
 			if (rest[r].keyword == restaurant) {
@@ -63,7 +63,7 @@ module.exports = {
 		};
 	}),
 
-	name: function(restaurant) {
+	name: function (restaurant) {
 		var rest = restaurants.restaurants;
 		for (var r in rest) {
 			if (rest[r].keyword == restaurant) {

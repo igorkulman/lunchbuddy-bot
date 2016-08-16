@@ -8,8 +8,8 @@ function today(td) {
     return td.getDate() == d.getDate() && td.getMonth() == d.getMonth() && td.getFullYear() == d.getFullYear();
 }
 
-var getMenu = async(function(cityId) {
-    var data = await (request.get({
+var getMenu = async(function (cityId) {
+    var data = await(request.get({
         url: "http://ordr-api-production.azurewebsites.net/offers/weeklymenu?cityid=" + cityId
     }));
     var res = [];
@@ -24,11 +24,11 @@ var getMenu = async(function(cityId) {
         var isToday = today(d);
 
         if (isToday) {
-            for (var k=0; k< j.weekly_menu[i].shifts[0].meals.length; ++k) {
+            for (var k = 0; k < j.weekly_menu[i].shifts[0].meals.length; ++k) {
                 res.push({
-                    "name" : j.weekly_menu[i].shifts[0].meals[k].name,
-                    "price" : j.weekly_menu[i].shifts[0].meals[k].price,
-                    "image" : j.weekly_menu[i].shifts[0].meals[k].image_url
+                    "name": j.weekly_menu[i].shifts[0].meals[k].name,
+                    "price": j.weekly_menu[i].shifts[0].meals[k].price,
+                    "image": j.weekly_menu[i].shifts[0].meals[k].image_url
                 });
             }
         }
@@ -37,19 +37,19 @@ var getMenu = async(function(cityId) {
 });
 
 module.exports = {
-	handles: function(restaurant){
-		return restaurant=="ordr";
-	},
+    handles: function (restaurant) {
+        return restaurant == "ordr";
+    },
 
-	restaurants: function(){
-		return ["ordr"]
-	},
+    restaurants: function () {
+        return ["ordr"]
+    },
 
-	get: async(function(restaurant) {
-		return await (getMenu(1));
-	}),
+    get: async(function (restaurant) {
+        return await(getMenu(1));
+    }),
 
-	name: function(restaurant) {
-		return "ORDR (Prague)"
-	}
+    name: function (restaurant) {
+        return "ORDR (Prague)"
+    }
 };
