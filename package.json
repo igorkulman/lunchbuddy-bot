@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./index.js"
+    "start": "cd src && node ./index.js"
   },
   "author": "Igor Kulman",
   "license": "Mozilla Public License 2.0"
